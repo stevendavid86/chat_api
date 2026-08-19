@@ -1,6 +1,3 @@
-#start environment: source .venv/bin/activate
-#leave environment: deactivate
-
 from models.message import Message
 
 def build_transcript(messages):
