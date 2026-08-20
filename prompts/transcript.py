@@ -4,12 +4,12 @@ def build_transcript(messages):
     transcript = ""
 
     for message in messages:
-        role = message.role.upper()
+        role = message.role.lower()
         content = message.content
 
         transcript += f'{role}:\n'
         transcript += f'{content}\n\n'
 
-    transcript += 'Assistant:\n'
+    transcript += 'assistant:\n'
 
     return transcript
