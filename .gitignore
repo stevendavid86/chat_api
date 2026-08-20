@@ -1,5 +1,6 @@
 #start environment: source .venv/bin/activate
 #leave environment: deactivate
+#$OPENAI_API_KEY
 
 # Python virtural environment
 .venv/

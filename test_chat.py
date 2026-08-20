@@ -1,6 +1,6 @@
 from models.message import Message
-from propmps.transcript import build_transcript
-from services.llm_service import MockLLMService
+from prompts.transcript import build_transcript
+from services.llm_service import OpenAILLMService
 
 messages = [
     Message(
@@ -14,11 +14,11 @@ messages = [
 ]
 
 prompt = build_transcript(messages)
-llm = MockLLMService()
+llm = OpenAILLMService()
 response = llm.generate(prompt)
 
 print('prompt:')
 print(prompt)
 
 print('response:')
-print('response')
+print(response)
