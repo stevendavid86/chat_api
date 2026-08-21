@@ -1,24 +1,32 @@
 from models.message import Message
-from prompts.transcript import build_transcript
-from services.llm_service import OpenAILLMService
+from services.conversation_service import ConversationService
+from services.llm_service import MockLLMService, OpenAILLMService, LLMService
 
 messages = [
     Message(
         role = 'system',
         content = 'You are a helpful programming assistant.'
-    ),
-    Message(
-        role = 'user',
-        content = 'What is a linked list?'
     )
 ]
 
-prompt = build_transcript(messages)
-llm = OpenAILLMService()
-response = llm.generate(prompt)
+llm = MockLLMService()
+conversation_service = ConversationService(llm)
 
-print('prompt:')
-print(prompt)
+response = conversation_service.send_message(
+    messages, 
+    'What is a linked list?')
 
 print('response:')
 print(response)
+
+response = conversation_service.send_message(
+    messages,
+    'How is it different from an array?'
+    )
+
+print('response:')
+print(response)
+
+print('\nmessages:')
+for message in messages:
+    print(f'{message.role}: {message.content}')
