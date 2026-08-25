@@ -1,5 +1,9 @@
 #start environment: source .venv/bin/activate
 #leave environment: deactivate
+
+#run pytest: python -m pytest -v
+#-v for verbose output
+
 #$OPENAI_API_KEY
 
 # Python virtural environment
@@ -8,8 +12,9 @@
 # Python generated files
 __pycache__/
 
-# Environment variables / secretes
+# Environment variables / secrets
 .env
 
 #tests
+
 tests/run_tests.py
