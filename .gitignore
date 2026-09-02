@@ -2,14 +2,14 @@
 #leave environment: deactivate
 
 #run web application: uvicorn main:app --reload
-    #curl requests:
-    ##create conversation: curl -X POST "http://127.0.0.1:8000/conversations"
+#curl requests:
+##create conversation: curl -X POST "http://127.0.0.1:8000/conversations"
 
-    ##post message: curl -X POST http://127.0.0.1:8000/conversations/{conversation_id}/
-    ##messages -H "Content-Type: application/json" -d '{"content":"Hello?"}'
-    ##-H = header, -d = data (body of the request)
+##post message: curl -X POST http://127.0.0.1:8000/conversations/{conversation_id}/
+##messages -H "Content-Type: application/json" -d '{"content":"Hello?"}'
+##-H = header, -d = data (body of the request)
 
-    ##get messages: curl http://127.0.0.1:8000/conversations/{conversation_id}
+##get messages: curl http://127.0.0.1:8000/conversations/{conversation_id}
 
 
 #run pytest: python -m pytest -v
