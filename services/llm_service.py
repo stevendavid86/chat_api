@@ -13,6 +13,9 @@ class OpenAILLMService(LLMService):
         self.client = OpenAI()
 
     def generate(self, prompt):
+        print("\n ---> Prompt sent to OpenAI LLM Service: ")
+        print(prompt)
+        print("--------------------------\n")
         response = self.client.responses.create(
             model="gpt-5.6",
             input=prompt

@@ -8,7 +8,8 @@ from services.llm_service import MockLLMService, OpenAILLMService
 app = FastAPI()
 
 repository = ConversationRepository()
-llm = MockLLMService()
+#llm = MockLLMService()
+llm = OpenAILLMService()  # Uncomment this line to use the actual OpenAI LLM service
 conversation_service = ConversationService(llm, repository)
 
 @app.get("/")

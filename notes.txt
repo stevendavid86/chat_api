@@ -5,9 +5,9 @@
     #curl requests:
     ##create conversation: curl -X POST "http://127.0.0.1:8000/conversations"
 
-    ##post message: curl -X POST http://127.0.0.1:8000/conversations/{conversation_id}/
-    ##messages -H "Content-Type: application/json" -d '{"content":"Hello?"}'
-    ##-H = header, -d = data (body of the request)
+    ##post message: curl -X POST 
+    http://127.0.0.1:8000/conversations/10933102-4832-4805-91d4-35b98b974649/messages 
+    -H "Content-Type: application/json" -d '{"content":"What is a linked list?"}'
 
     ##get messages: curl http://127.0.0.1:8000/conversations/{conversation_id}
 
@@ -16,3 +16,5 @@
 #-v for verbose output
 
 #$OPENAI_API_KEY
+
+#uvicorn main:app --reload
