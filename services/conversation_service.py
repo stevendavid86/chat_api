@@ -28,6 +28,8 @@ class ConversationService:
         message = Message(role='user', content=user_message)
         self.conversation_repository.add_message(conversation_id, message)
 
+        messages = self.conversation_repository.get_conversation(conversation_id)  # Fetch updated messages
+
         # Build new transcript with new user message
         prompt = build_transcript(messages)
 

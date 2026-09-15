@@ -1,11 +1,13 @@
 from fastapi import FastAPI, HTTPException
 
+from database.database import initialize_database
 from models.chat_request import ChatRequest
 from repositories.conversation_repository import ConversationRepository
 from services.conversation_service import ConversationService
 from services.llm_service import MockLLMService, OpenAILLMService
 
 app = FastAPI()
+initialize_database()
 
 repository = ConversationRepository()
 #llm = MockLLMService()
