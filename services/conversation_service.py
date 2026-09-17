@@ -24,12 +24,14 @@ class ConversationService:
         if messages is None:
             return None
         
-        # Add the user's message to the conversation
+        # Create new message object
         message = Message(role='user', content=user_message)
+        # Add the message object to the conversation in sql
         self.conversation_repository.add_message(conversation_id, message)
-
-        messages = self.conversation_repository.get_conversation(conversation_id)  # Fetch updated messages
-
+        
+        # Append the new message object to the local messages list
+        messages.append(message)
+          
         # Build new transcript with new user message
         prompt = build_transcript(messages)
 
