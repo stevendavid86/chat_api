@@ -4,11 +4,13 @@ from database.database import get_connection
 from models.message import Message
 
 class ConversationRepository:
+    def __init__(self, database_path="chat.db"):
+        self.database_path = database_path
     
     def create_conversation(self):
         conversation_id = str(uuid.uuid4())
 
-        connection = get_connection()
+        connection = get_connection(self.database_path)
         cursor = connection.cursor()
 
         cursor.execute("insert into conversations (id) values (?)", (conversation_id,))
@@ -18,7 +20,7 @@ class ConversationRepository:
         return conversation_id
 
     def get_conversation(self, conversation_id):
-        connection = get_connection()
+        connection = get_connection(self.database_path)
         cursor = connection.cursor()
 
         #check if conversation exists, return None if it does not
@@ -45,7 +47,7 @@ class ConversationRepository:
         return messages
 
     def add_message(self, conversation_id, message):
-        connection = get_connection()
+        connection = get_connection(self.database_path)
         cursor = connection.cursor()
 
         #fetch conversation, return false if conversation does not exist

@@ -3,16 +3,16 @@ import sqlite3
 DATABASE_PATH = "chat.db"
 
 #Establish a connection to the SQLite database
-def get_connection():    
+def get_connection(database_path=DATABASE_PATH):    
     try:
-        conn = sqlite3.connect(DATABASE_PATH)
+        conn = sqlite3.connect(database_path)
         return conn
     except sqlite3.Error as e:
         print(f"Error connecting to database: {e}")
         return None
 
-def initialize_database():
-    conn = get_connection()
+def initialize_database(database_path=DATABASE_PATH):
+    conn = get_connection(database_path)
     if conn:
         cursor = conn.cursor()
         # Create a table for storing chat messages
