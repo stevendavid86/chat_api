@@ -2,20 +2,18 @@ from fastapi.testclient import TestClient
 
 from main import app
 
-client = TestClient(app)
-
-def test_root():
+def test_root(client):
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello, World!"}
 
-def test_create_conversation():
+def test_create_conversation(client, repository):
     response = client.post("/conversations")
     assert response.status_code == 200
     assert "conversation_id" in response.json()
     assert response.json()["conversation_id"] is not None
 
-def test_send_message():
+def test_send_message(client, repository):
     #create new conversation
     new_conversation = client.post("/conversations")
     conversation_id = new_conversation.json()["conversation_id"]
@@ -30,7 +28,7 @@ def test_send_message():
     assert "response" in message_response.json()
     assert message_response.json()["response"] is not None
 
-def test_conversation_history():
+def test_conversation_history(client, repository):
     # Create new conversation
     new_conversation = client.post("/conversations")
     conversation_id = new_conversation.json()["conversation_id"]
@@ -51,7 +49,7 @@ def test_conversation_history():
     # 1 system message,1 user message, and 1 LLM response
     assert len(conversation_history.json()["messages"]) == 3
 
-def test_multiple_messages():
+def test_multiple_messages(client, repository):
     # Create new conversation
     new_conversation = client.post("/conversations")
     conversation_id = new_conversation.json()["conversation_id"]
@@ -81,19 +79,19 @@ def test_multiple_messages():
     # 1 system message,3 user messages, and 3 LLM responses
     assert len(conversation_history.json()["messages"]) == 7 
 
-def test_send_message_to_missing_conversation():
+def test_send_message_to_missing_conversation(client, repository):
     response = client.post("/conversations/invalid/messages", json={"content": "Hello"})
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Conversation not found"}
 
-def test_get_missing_conversation():
+def test_get_missing_conversation(client, repository):
     response = client.get("/conversations/invalid")
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Conversation not found"}
 
-def test_send_empty_message():
+def test_send_empty_message(client, repository):
     # Create new conversation
     new_conversation = client.post("/conversations")
     conversation_id = new_conversation.json()["conversation_id"]

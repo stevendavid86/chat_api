@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 
 from database.database import initialize_database
 from models.chat_request import ChatRequest
@@ -10,9 +10,15 @@ app = FastAPI()
 initialize_database()
 
 repository = ConversationRepository()
-#llm = MockLLMService()
-llm = OpenAILLMService()  # Uncomment this line to use the actual OpenAI LLM service
+llm = MockLLMService()
+#llm = OpenAILLMService()  # Uncomment this line to use the actual OpenAI LLM service
 conversation_service = ConversationService(llm, repository)
+
+def get_conversation_service():
+    return conversation_service
+
+def get_repository():
+    return repository
 
 @app.get("/")
 def root():
@@ -20,14 +26,14 @@ def root():
 
 # Create new conversation and return conversation ID
 @app.post("/conversations")
-def create_conversation():
-    conversation_id = conversation_service.create_conversation()
+def create_conversation(service: ConversationService = Depends(get_conversation_service)):
+    conversation_id = service.create_conversation()
     return {"conversation_id": conversation_id}
 
 # Send message to conversation and return LLM's response
 @app.post("/conversations/{conversation_id}/messages")
-def send_message(conversation_id: str, chat_request: ChatRequest):
-    response = conversation_service.send_message(conversation_id, chat_request.content)
+def send_message(conversation_id: str, chat_request: ChatRequest, service: ConversationService = Depends(get_conversation_service)):
+    response = service.send_message(conversation_id, chat_request.content)
 
     if response is None:
         raise HTTPException(status_code=404, detail="Conversation not found")
@@ -35,7 +41,7 @@ def send_message(conversation_id: str, chat_request: ChatRequest):
     return {"response": response}
 
 @app.get("/conversations/{conversation_id}")
-def get_conversation(conversation_id: str):
+def get_conversation(conversation_id: str, repository: ConversationRepository = Depends(get_repository)):
     messages = repository.get_conversation(conversation_id)
 
     if messages is None:
